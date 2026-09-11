@@ -535,9 +535,14 @@ with tab2:
         help="Enter event symbols exactly matching the defined alphabet Sigma.",
     )
 
-    validate_btn = st.button("🚀 Run Batch Validation", type="primary", use_container_width=True)
+       validate_btn = st.button("🚀 Run Batch Validation", type="primary", use_container_width=True)
 
-    if batch_input and (validate_btn or "batch_input_text" in st.session_state):
+    if "has_run_batch_validation" not in st.session_state:
+        st.session_state.has_run_batch_validation = False
+    if validate_btn:
+        st.session_state.has_run_batch_validation = True
+
+    if batch_input and st.session_state.has_run_batch_validation:
         # Parse and sanitize sequence
         raw_events = [item.strip() for item in batch_input.replace("\n", ",").split(",") if item.strip()]
 
